@@ -25,11 +25,12 @@ class CreateShow extends Component {
         return (
             <article style={styles.article}>
                 <h1>할일 만들기</h1>
-                <form action="" style={styles.form}>
-                    <input type="text" placeholder="title" />
-                    <textarea placeholder="desc" id="" cols="30" rows="8"></textarea>
-                    <input type="submit" value="추가" onClick={(e) => { e.preventDefault(); }} />
+                <form action="create_process" method="post" style={styles.form} onSubmit={(e) => { e.preventDefault(); this.props.addList(e.target.title.value, e.target.desc.value) }} >
+                    <input name="title" type="text" placeholder="title" />
+                    <textarea name="desc" placeholder="desc" id="" cols="30" rows="8"></textarea>
+                    <input type="submit" value="추가" />
                 </form>
+
 
             </article>
         )
