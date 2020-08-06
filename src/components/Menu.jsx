@@ -7,17 +7,9 @@ const styles = {
     },
 
     button: {
-        width: '50%',
+        width: '33.3%',
         height: 30
     },
-
-    input: {
-        width: '100%',
-        height: 30,
-        border: 'none',
-        backgroundColor: 'orange',
-        color: 'white',
-    }
 }
 
 
@@ -29,7 +21,7 @@ class Menu extends Component {
             <div style={styles.div}>
                 <input style={styles.button} type="button" value="생성" onClick={() => { this.props.clickBtn('create') }} />
                 <input style={styles.button} type="button" value="업데이트" onClick={() => { this.props.clickBtn('update') }} />
-                <input style={styles.input} type="text" placeholder="삭제" onClick={() => { this.props.clickBtn('delete') }} />
+                <input style={styles.button} type="button" value="삭제" onClick={() => { this.props.clickBtn('delete') }} />
             </div>
         )
     }

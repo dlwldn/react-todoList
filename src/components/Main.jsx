@@ -5,7 +5,7 @@ class Main extends Component {
     render() {
         return (
             <li>
-                <a href="/" className="main" onClick={(e) => { e.preventDefault(); this.props.changeContent(); }}>내가 할 목록 리스트 : {this.props.title}</a>
+                <a href="/" onClick={(e) => { e.preventDefault(); this.props.changeContent(); }}>내가 할 목록 리스트 : {this.props.title}</a>
             </li>
         )
     }
