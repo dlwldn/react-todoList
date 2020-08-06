@@ -11,11 +11,10 @@ import './css/main.css'
 class App extends Component {
   constructor(props) {
     super(props);
-
+    this.maxNumber = 5;
     this.state = {
       mode: 'read',
-      listNumber: 0,
-      maxNumber: 6,
+      listNumber: 2,
       myLists: [
         { id: 1, title: 'HTML', desc: 'HTML 끝' },
         { id: 2, title: 'CSS', desc: 'CSS 끝' },
@@ -27,32 +26,31 @@ class App extends Component {
   }
 
   getReadContent() {
-    let _content = null;
-    _content = this.state.myLists[this.state.listNumber];
-    return _content;
+    const data = this.state.myLists.filter((content)=> content.id === this.state.listNumber);
+      if(data[0].id === this.state.listNumber) {
+        return data[0];
+      }
   }
 
 
   onChangeMode() {
-    let _title, _desc, _show, _content = null;
+    let _show, _content = null;
 
     if (this.state.mode === 'read') {
-      _title = this.state.myLists[this.state.listNumber].title;
-      _desc = this.state.myLists[this.state.listNumber].desc;
-      _show = <ContentShow title={_title} desc={_desc} />;
+      _content = this.getReadContent();
+      _show = <ContentShow title={_content.title} desc={_content.desc} />;
     } else if (this.state.mode === 'create') {
+      this.maxNumber = this.maxNumber + 1;
       _show = <CreateShow addList={(_title, _desc) => {
-        const _myList = this.state.myLists.concat({ id: this.state.maxNumber, title: _title, desc: _desc });
+        const _myList = this.state.myLists.concat({ id: this.maxNumber, title: _title, desc: _desc });
         this.setState({
           myLists: _myList,
-          maxNumber: this.state.maxNumber + 1,
+          listNumber: this.maxNumber,
           mode: 'read',
-          listNumber: this.state.myLists.length,
         })
       }} />
     } else if (this.state.mode === 'update') {
       _content = this.getReadContent();
-      console.log(_content);
       _show = <UpdateShow data={_content} updateList={(_id, _title, _desc) => {
         const _contents = Array.from(this.state.myLists);
         let i = 0;
@@ -70,7 +68,7 @@ class App extends Component {
         var _contents = Array.from(this.state.myLists);
         let i = 0;
         while (i < _contents.length) {
-          if (_contents[i].id === this.state.listNumber + 1) {
+          if (_contents[i].id === this.state.listNumber) {
             _contents.splice(i, 1);
             break;
           }
@@ -97,7 +95,7 @@ class App extends Component {
           <ul className="list">
             {this.state.myLists.map((list) => {
               return (
-                <Main title={list.title} key={list.id} id={list.id} changeContent={() => { this.setState({ listNumber: (list.id - 1), mode: 'read', id: list.id }) }} />
+                <Main title={list.title} key={list.id} id={list.id} changeContent={() => { this.setState({ listNumber: list.id, mode: 'read', id: list.id }) }} />
               );
             })}
           </ul>
