@@ -26,10 +26,10 @@ class App extends Component {
   }
 
   getReadContent() {
-    const data = this.state.myLists.filter((content)=> content.id === this.state.listNumber);
-      if(data[0].id === this.state.listNumber) {
-        return data[0];
-      }
+    const data = this.state.myLists.filter((content) => content.id === this.state.listNumber);
+    if (data[0].id === this.state.listNumber) {
+      return data[0];
+    }
   }
 
 
@@ -64,21 +64,25 @@ class App extends Component {
         this.setState({ myLists: _contents, mode: 'read' });
       }} />
     } else if (this.state.mode === 'delete') {
-      if (window.confirm()) {
-        var _contents = Array.from(this.state.myLists);
-        let i = 0;
-        while (i < _contents.length) {
-          if (_contents[i].id === this.state.listNumber) {
-            _contents.splice(i, 1);
-            break;
-          }
-          i = i + 1;
-        }
-        this.setState({
-          mode: 'read',
-          myLists: _contents,
-        })
+      const contents = Array.from(this.state.myLists);
+      _content = this.getReadContent();
+      console.log(_content);
+      console.log(contents);
+      console.log(this.state.listNumber);
+
+
+      if (_content.id === this.state.listNumber) {
+        contents.splice(this.state.listNumber, 1);
+        console.log(contents);
+
+        // this.setState({
+        //   myLists: contents,
+        // })
+
+        _show = <ContentShow title="삭제되었습니다." />;
       }
+
+
     }
 
     return _show;
