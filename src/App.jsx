@@ -14,7 +14,7 @@ class App extends Component {
     this.maxNumber = 5;
     this.state = {
       mode: 'read',
-      listNumber: 2,
+      listNumber: 1,
       myLists: [
         { id: 1, title: 'HTML', desc: 'HTML 끝' },
         { id: 2, title: 'CSS', desc: 'CSS 끝' },
@@ -33,7 +33,7 @@ class App extends Component {
   }
 
 
-  onChangeMode() {
+  getContent() {
     let _show, _content = null;
 
     if (this.state.mode === 'read') {
@@ -63,28 +63,10 @@ class App extends Component {
         }
         this.setState({ myLists: _contents, mode: 'read' });
       }} />
-    } else if (this.state.mode === 'delete') {
-      const contents = Array.from(this.state.myLists);
-      _content = this.getReadContent();
-      console.log(_content);
-      console.log(contents);
-      console.log(this.state.listNumber);
-
-
-      if (_content.id === this.state.listNumber) {
-        contents.splice(this.state.listNumber, 1);
-        console.log(contents);
-
-        // this.setState({
-        //   myLists: contents,
-        // })
-
-        _show = <ContentShow title="삭제되었습니다." />;
-      }
-
-
-    }
-
+     }  else if (this.state.mode === 'deleted') {
+      _show = <ContentShow title="삭제되었습니다." />;
+     }
+   
     return _show;
   }
 
@@ -94,7 +76,24 @@ class App extends Component {
     return (
       <div>
         <Header title='todoList - React' />
-        <Menu clickBtn={(md) => { this.setState({ mode: md }) }} />
+        <Menu onChangeMode={(_mode) => {
+          if(_mode === 'delete') {
+            if(window.confirm("정말 지우겠습니까?")) {
+              const _contents = Array.from(this.state.myLists)
+              let i = 0;
+              while(i < _contents.length) {
+                if(_contents[i].id === this.state.listNumber) {
+                  _contents.splice(i,1);
+                  break;
+                }
+                i= i+1;
+              }
+              this.setState({myLists: _contents, mode:'deleted'});
+            }
+          } else {
+            this.setState({ mode: _mode });
+          }
+           }} />
         <div className="main">
           <ul className="list">
             {this.state.myLists.map((list) => {
@@ -103,7 +102,7 @@ class App extends Component {
               );
             })}
           </ul>
-          {this.onChangeMode()}
+          {this.getContent()}
         </div>
         <Footer />
       </div>
